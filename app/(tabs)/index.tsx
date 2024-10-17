@@ -19,8 +19,11 @@ export default function HomeScreen() {
   const Y = new Animated.Value(0);
 
   const moveUp = () => {
-    Animated.timing(Y, {
-      toValue: 200,
+    Animated.spring(Y, {
+      toValue: -200,
+      // bounciness: 50,
+      tension: 800,
+      friction: 15,
       useNativeDriver: true,
     }).start();
   };
