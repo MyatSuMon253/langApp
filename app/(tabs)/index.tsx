@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Animated, StyleSheet, TouchableOpacity } from "react-native";
+import { Animated, Easing, StyleSheet, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 
 const Container = styled.View`
@@ -25,6 +25,7 @@ export default function HomeScreen() {
     Animated.timing(Y, {
       toValue: up ? 200 : -200,
       useNativeDriver: true,
+      easing: Easing.cubic
     }).start(toggleUp);
   };
 
