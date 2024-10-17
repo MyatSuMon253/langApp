@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 
 import styled from "styled-components/native";
@@ -17,8 +17,21 @@ const Box = styled.TouchableOpacity`
 
 export default function HomeScreen() {
   const [y, setY] = useState(0);
-  const moveUp = () => setInterval(() => setY((prev) => prev + 1), 500);
+  const [intervalId, setIntervalId] = useState<any>(null);
 
+  const moveUp = () => {
+    const id = setInterval(() => setY((prev) => prev + 1), 1);
+    console.log(id)
+    setIntervalId(id);
+  };
+
+  useEffect(() => {
+    if (y >= 200) {
+      clearInterval(intervalId);
+    }
+  }, [y, intervalId]);
+
+  console.log("rendering");
   return (
     <Container>
       <Box
