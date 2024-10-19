@@ -24,20 +24,30 @@ export default function HomeScreen() {
   const moveUp = () => {
     Animated.timing(Y_POSITION, {
       toValue: up ? 300 : -300,
-      useNativeDriver: true,
+      useNativeDriver: false,
       duration: 3000,
       easing: Easing.cubic,
     }).start(toggleUp);
   };
 
-  const opacity = Y_POSITION.interpolate({
-    inputRange: [-300, -100, 100, 300],
-    outputRange: [1, 0, 0, 1],
+  // const opacity = Y_POSITION.interpolate({
+  //   inputRange: [-300, -100, 100, 300],
+  //   outputRange: [1, 0, 0, 1],
+  // });
+
+  const rotation = Y_POSITION.interpolate({
+    inputRange: [-300, 300],
+    outputRange: ["-360deg", "360deg"],
   });
 
   const borderRadius = Y_POSITION.interpolate({
     inputRange: [-300, 300],
     outputRange: [100, 0],
+  });
+
+  const bgColor = Y_POSITION.interpolate({
+    inputRange: [-300, 300],
+    outputRange: ["rgb(255, 99, 71)", "rgb(71, 166, 255)"],
   });
 
   return (
@@ -46,8 +56,9 @@ export default function HomeScreen() {
         <AnimatedBox
           style={{
             borderRadius,
-            opacity,
-            transform: [{ translateY: Y_POSITION }],
+            backgroundColor: bgColor,
+            // opacity,
+            transform: [{ rotateY: rotation }, { translateY: Y_POSITION }],
           }}
         />
       </Pressable>
