@@ -50,6 +50,8 @@ export default function HomeScreen() {
     outputRange: ["rgb(255, 99, 71)", "rgb(71, 166, 255)"],
   });
 
+  POSITION.addListener(() => console.log(POSITION.getTranslateTransform()));
+
   return (
     <Container>
       <Pressable onPress={moveUp}>
@@ -58,7 +60,10 @@ export default function HomeScreen() {
             borderRadius,
             backgroundColor: bgColor,
             // opacity,
-            transform: [{ rotateY: rotation }, { translateY: POSITION.y }],
+            transform: [
+              { rotateY: rotation },
+              ...POSITION.getTranslateTransform(),
+            ],
           }}
         />
       </Pressable>
