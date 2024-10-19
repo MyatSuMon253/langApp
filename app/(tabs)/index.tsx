@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Animated, Easing, StyleSheet, TouchableOpacity } from "react-native";
+import { Animated, Easing, Pressable, StyleSheet } from "react-native";
 import styled from "styled-components/native";
 
 const Container = styled.View`
@@ -18,31 +18,39 @@ const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 export default function HomeScreen() {
   const [up, setUp] = useState(false);
-  const Y = useRef(new Animated.Value(0)).current;
+  const Y_POSITION = useRef(new Animated.Value(0)).current;
   const toggleUp = () => setUp((prev) => !prev);
 
   const moveUp = () => {
-    Animated.timing(Y, {
-      toValue: up ? 200 : -200,
+    Animated.timing(Y_POSITION, {
+      toValue: up ? 300 : -300,
       useNativeDriver: true,
-      easing: Easing.cubic
+      duration: 500,
+      easing: Easing.cubic,
     }).start(toggleUp);
   };
 
-  Y.addListener(() => {
-    console.log("Animated State: ", Y);
+  const opacity = Y_POSITION.interpolate({
+    inputRange: [-300,-100, 100, 300],
+    outputRange: [1, 0, 0, 1],
   });
-  console.log("Component State: ", Y);
+
+  console.log(opacity);
+  Y_POSITION.addListener(() => {
+    console.log("Animated State: ", Y_POSITION);
+  });
+  console.log("Component State: ", Y_POSITION);
 
   return (
     <Container>
-      <TouchableOpacity onPress={moveUp}>
+      <Pressable onPress={moveUp}>
         <AnimatedBox
           style={{
-            transform: [{ translateY: Y }],
+            opacity,
+            transform: [{ translateY: Y_POSITION }],
           }}
         />
-      </TouchableOpacity>
+      </Pressable>
     </Container>
   );
 }
