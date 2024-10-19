@@ -25,27 +25,27 @@ export default function HomeScreen() {
     Animated.timing(Y_POSITION, {
       toValue: up ? 300 : -300,
       useNativeDriver: true,
-      duration: 500,
+      duration: 3000,
       easing: Easing.cubic,
     }).start(toggleUp);
   };
 
   const opacity = Y_POSITION.interpolate({
-    inputRange: [-300,-100, 100, 300],
+    inputRange: [-300, -100, 100, 300],
     outputRange: [1, 0, 0, 1],
   });
 
-  console.log(opacity);
-  Y_POSITION.addListener(() => {
-    console.log("Animated State: ", Y_POSITION);
+  const borderRadius = Y_POSITION.interpolate({
+    inputRange: [-300, 300],
+    outputRange: [100, 0],
   });
-  console.log("Component State: ", Y_POSITION);
 
   return (
     <Container>
       <Pressable onPress={moveUp}>
         <AnimatedBox
           style={{
+            borderRadius,
             opacity,
             transform: [{ translateY: Y_POSITION }],
           }}
