@@ -45,6 +45,12 @@ export default function HomeScreen() {
           y: dy,
         });
       },
+      onPanResponderRelease: () => {
+        Animated.spring(POSITION, {
+          toValue: { x: 0, y: 0 },
+          useNativeDriver: false,
+        }).start();
+      },
     })
   ).current;
 
@@ -57,7 +63,7 @@ export default function HomeScreen() {
         style={{
           borderRadius,
           backgroundColor: bgColor,
-          transform: [...POSITION.getTranslateTransform()],
+          transform: POSITION.getTranslateTransform(),
         }}
       />
     </Container>
