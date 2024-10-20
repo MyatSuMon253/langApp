@@ -61,7 +61,7 @@ export default function HomeScreen() {
   const moveUp = () => {
     Animated.loop(
       Animated.sequence([topLeft, bottomLeft, bottomRight, topRight])
-    );
+    ).start();
   };
 
   const borderRadius = POSITION.y.interpolate({
