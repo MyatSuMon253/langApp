@@ -1,5 +1,6 @@
+import icons from "@/icons";
 import { Ionicons } from "@expo/vector-icons";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Animated, PanResponder, View } from "react-native";
 import styled from "styled-components/native";
 
@@ -91,19 +92,27 @@ export default function TabTwoScreen() {
     })
   ).current;
 
+  const [index, setIndex] = useState(0);
+
+  const onDismiss = () => {
+    scale.setValue(1);
+    position.setValue(0);
+    setIndex((prev) => prev + 1);
+  };
+
   const closePress = () => {
-    goLeft.start();
+    goLeft.start(onDismiss);
   };
 
   const checkPress = () => {
-    goRight.start();
+    goRight.start(onDismiss);
   };
 
   return (
     <Container>
       <CardContainer>
         <Card style={{ transform: [{ scale: secondScale }] }}>
-          <Ionicons name="beer" color="#192a56" size={98} />
+          <Ionicons name={icons[index + 1]} color="#192a56" size={98} />
         </Card>
         <Card
           {...panResponder.panHandlers}
@@ -115,10 +124,9 @@ export default function TabTwoScreen() {
             ],
           }}
         >
-          <Ionicons name="pizza" color="#192a56" size={98} />
+          <Ionicons name={icons[index]} color="#192a56" size={98} />
         </Card>
       </CardContainer>
-
       <BtnContainer>
         <Btn onPress={closePress}>
           <Ionicons name="close-circle" color="white" size={58} />
