@@ -39,22 +39,26 @@ export default function HomeScreen() {
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
+      onPanResponderStart(e, gestureState) {
+        console.log("touch started", POSITION.x._value, POSITION.y._value);
+        POSITION.setOffset({
+          x: POSITION.x._value,
+          y: POSITION.y._value,
+        });
+      },
       onPanResponderMove: (_, { dx, dy }) => {
+        console.log("finger moving");
         POSITION.setValue({
           x: dx,
           y: dy,
         });
       },
       onPanResponderRelease: () => {
-        Animated.spring(POSITION, {
-          toValue: { x: 0, y: 0 },
-          useNativeDriver: false,
-        }).start();
+        console.log("touch finished");
+        POSITION.flattenOffset();
       },
     })
   ).current;
-
-  console.log(panResponder);
 
   return (
     <Container>
