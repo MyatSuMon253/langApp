@@ -1,5 +1,6 @@
+import icons from "@/icons";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Animated, Easing, PanResponder, View } from "react-native";
 import styled from "styled-components/native";
 
@@ -109,21 +110,36 @@ const DragAndDrop = () => {
       onPanResponderRelease: (_, { dy }) => {
         if (dy < -250 || dy > 250) {
           Animated.sequence([
-            Animated.parallel([onDropOpactiy, onDropScale]),
+            Animated.parallel([onDropScale, onDropOpactiy]),
             Animated.timing(position, {
               toValue: 0,
               duration: 50,
               easing: Easing.linear,
               useNativeDriver: true,
             }),
-          ]).start();
+          ]).start(nextIcon);
         } else {
           Animated.parallel([onPressOut, goHome]).start();
         }
       },
     })
   ).current;
+
   // state
+  const [index, setIndex] = useState(0);
+  const nextIcon = () => {
+    setIndex((prev) => prev + 1);
+    Animated.parallel([
+      Animated.spring(scale, {
+        toValue: 1,
+        useNativeDriver: true,
+      }),
+      Animated.spring(opacity, {
+        toValue: 1,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
 
   return (
     <Container>
@@ -140,7 +156,7 @@ const DragAndDrop = () => {
             transform: [...position.getTranslateTransform(), { scale }],
           }}
         >
-          <Ionicons name="beer" color={GREY} size={76} />
+          <Ionicons name={icons[index]} color={GREY} size={76} />
         </IconCard>
       </Center>
       <Edge>
