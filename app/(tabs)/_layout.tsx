@@ -39,6 +39,18 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="drag_and_drop"
+        options={{
+          title: "D&D",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "caret-down-sharp" : "caret-up-sharp"}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
